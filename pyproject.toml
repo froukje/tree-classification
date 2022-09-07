@@ -1,0 +1,16 @@
+[tool.pylint.messages_control]
+
+disable = [
+	"redefined-outer-name", 
+	"signature-differs",
+	"invalid-name",
+	"arguments-differ",
+	"no-member"
+	]
+
+[tool.black]
+line-length = 88
+skip-string-normlization = true
+
+[tool.isort]
+profile = "black"
