@@ -2,3 +2,5 @@ data/*
 mlruns/*
 mlruns.db
 lightning_logs/*
+notebooks/.ipynb_checkpoints/*
+notebooks/.ipynb_checkpoints/models-exploration-checkpoint.ipynb
