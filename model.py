@@ -43,7 +43,7 @@ class TreeClassification(pl.LightningModule):
         ), f"backbone model must be a supported model {SUPPORTED_MODELS}"
         self.args = args
         if "vgg" in args.backbone:
-            self.model = models.__dict__[args.backbone](weights=args.weights)
+            self.model = models.__dict__[args.backbone](pretrained=args.pretrained)
             # adapt classifier
             self.model.classifier = nn.Sequential(
                 nn.Linear(25088, 4096, bias=True),
@@ -56,23 +56,19 @@ class TreeClassification(pl.LightningModule):
             )
 
         elif "resnet" in args.backbone or "resnext" in args.backbone:
-            self.model = models.__dict__[args.backbone](
-                weights=args.weights
-            )  # (pretrained=pretrained)
+            self.model = models.__dict__[args.backbone](pretrained=args.pretrained)
             # replace output features with nr of classes
             self.model.fc.out_features = args.nr_classes
 
         elif "mobilenet_v3" in args.backbone:
-            self.model = models.__dict__[args.backbone](weights=args.weights)
+            self.model = models.__dict__[args.backbone](pretrained=args.pretrained)
             # adapt classifier
             in_features = self.model.classifier[0].in_features
             self.model.classifier = nn.Sequential(
                 nn.Linear(in_features, args.nr_classes),
             )
         elif "alexnet" in args.backbone:
-            self.model = models.__dict__[args.backbone](
-                weights=args.weights
-            )  # (pretrained=pretrained)
+            self.model = models.__dict__[args.backbone](pretrained=args.pretrained)
             # adapt classifier
             self.model.classifier = nn.Sequential(
                 nn.Dropout(p=0.5, inplace=False),

@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("--img-size", type=int, default=224)
     parser.add_argument("--nr-classes", type=int, default=2)
     parser.add_argument("--backbone", type=str, default="vgg16")
-    parser.add_argument("--weights", type=str, default=None)
+    parser.add_argument("--pretrained", type="store_true", default=True)
     parser = pl.Trainer.add_argparse_args(parser)
     args = parser.parse_args()
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     trainer = pl.Trainer.from_argparse_args(args, max_epochs=1)
 
     mlflow.set_experiment("test")
-    with mlflow.start_run():
+    with mlflow.start_run(run_name="default"):
         mlflow.log_params(params)
         mlflow.pytorch.autolog()
         trainer.fit(model, train_loader, val_loader)
